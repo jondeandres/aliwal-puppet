@@ -79,9 +79,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "manifests"
-    puppet.manifest_file  = "site.pp"
+    puppet.manifest_file  = "site.pp" # will have to point to manifests directory (puppet 4)
     puppet.module_path    = "modules"
-    puppet.options = "--verbose --debug"
     puppet.facter = {
       "osfamily" => "debian",
       "fqdn" => "test.com"
