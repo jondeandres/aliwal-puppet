@@ -35,13 +35,13 @@ node /\.com$/ inherits default {
   # APT #
   include apt::backports
 
-  file_line {
-    'squezze-backports-sloppy':
-      ensure => present,
-      path   => '/etc/apt/sources.list',
-      line   => 'deb http://http.debian.net/debian-backports squeeze-backports-sloppy main',
-      #notify => Exec['apt_update']
+  $release_real = downcase($::lsbdistcodename)
+  apt::source { 'backports-sloppy':
+    location => $::apt::params::backports_location,
+    release  => "${release_real}-backports-sloppy",
   }
+  # Backports are needed before installing rbenv dependencies
+  Apt::Source['backports-sloppy'] -> Class['rbenv::dependencies::ubuntu']
 
   # ZMQ #
   package { 'libzmq3':
@@ -56,7 +56,6 @@ node /\.com$/ inherits default {
   rbenv::install { $user:
     group => $group,
     home  => $home,
-    require => Class['apt::backports'],
   }
 
   rbenv::compile { '2.1.2':
