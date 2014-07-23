@@ -5,6 +5,7 @@ node /\.com$/ inherits default {
   $home  = "/data/ig/${user}"
   $dirs_aliwal = [ $home ]
   $dirs_root   = [ '/data', '/data/ig' ]
+  $ruby_version = '2.1.2'
 
   #TODO app dirs structure - shared/logs
   file { $dirs_root:
@@ -32,6 +33,27 @@ node /\.com$/ inherits default {
 
   group { $group: ensure => present }
 
+  # Apps #
+  #exec { 'git-clone-aliwal':
+  #  command => "su - aliwal -c 'git clone git@github.com:jondeandres/aliwal.git'",
+  #  cwd     => $home,
+  #  path    => ['/usr/bin', '/usr/sbin', '/bin'],
+  #  require => [
+  #    Package['git-core'],
+  #    File[$dirs_aliwal]
+  #  ]
+  #}
+
+  #exec { 'git-clone-whatsapp-service':
+  #  command => "su - aliwal -c 'git clone git@github.com:jondeandres/whatsapp-service.git'",
+  #  cwd     => $home,
+  #  path    => ['/usr/bin', '/usr/sbin', '/bin'],
+  #  require => [
+  #    Package['git-core'],
+  #    File[$dirs_aliwal]
+  #  ]
+  #}
+
   # APT #
   include apt::backports
 
@@ -49,6 +71,9 @@ node /\.com$/ inherits default {
     require => Class['apt::backports']
   }
 
+  # PUMA #
+  #TODO
+
   # PYTHON #
   package { 'python': ensure => installed }
 
@@ -58,16 +83,42 @@ node /\.com$/ inherits default {
     home  => $home,
   }
 
-  rbenv::compile { '2.1.2':
+  rbenv::compile { $ruby_version:
     user => $user,
     home => $home,
   }
 
   rbenv::gem { 'bundler':
     ensure => '1.5.0',
-    ruby   => '2.1.2',
+    ruby   =>  $ruby_version,
     user   => $user,
     home   => $home
+  }
+
+  rbenv::gem { 'rainbows':
+    ensure => '4.6.2',
+    ruby   => $ruby_version,
+    user   => $user,
+    home   => $home
+  }
+
+  rbenv::gem { 'unicorn':
+    ensure => '4.8.3',
+    ruby   => $ruby_version,
+    user   => $user,
+    home   => $home
+  }
+
+  file {"${home}/.ruby-version":
+    content => $ruby_version,
+    owner   => $user,
+    group   => $group
+  }
+
+  file {"${home}/.bashrc":
+    content => "source \$HOME/.rbenvrc",
+    owner   => $user,
+    group   => $group
   }
 
   # MONIT #
@@ -78,4 +129,7 @@ node /\.com$/ inherits default {
 
   # REDIS #
   include redis
+
+  # MYSQL #
+  include mysql::server
 }
