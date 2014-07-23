@@ -10,6 +10,7 @@ mod 'thomasvandoren/redis', "0.10.0"
 mod 'alup/rbenv', "1.2.0"
 mod 'puppetlabs/stdlib', "4.3.2"
 mod 'puppetlabs/apt', "1.5.1"
+mod 'puppetlabs/mysql', "2.3.1"
 
 # Modules from git
 # not working if module's name contains a dash :(

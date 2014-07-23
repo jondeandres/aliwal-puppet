@@ -6,6 +6,8 @@ FORGE
     puppetlabs/apt (1.5.1)
       puppetlabs/stdlib (>= 2.2.1)
     puppetlabs/gcc (0.2.0)
+    puppetlabs/mysql (2.3.1)
+      puppetlabs/stdlib (>= 3.2.0)
     puppetlabs/stdlib (4.3.2)
     thomasvandoren/redis (0.10.0)
       maestrodev/wget (>= 1.1.0)
@@ -21,6 +23,7 @@ GIT
 DEPENDENCIES
   alup/rbenv (= 1.2.0)
   puppetlabs/apt (= 1.5.1)
+  puppetlabs/mysql (= 2.3.1)
   puppetlabs/stdlib (= 4.3.2)
   puppetmodules/puppet-module-monit (>= 0)
   thomasvandoren/redis (= 0.10.0)
