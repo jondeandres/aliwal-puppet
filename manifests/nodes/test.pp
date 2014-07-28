@@ -1,5 +1,4 @@
 node /\.com$/ inherits default {
-
   $user  = 'aliwal'
   $group = 'aliwal'
   $home  = "/data/ig/${user}"
@@ -7,7 +6,6 @@ node /\.com$/ inherits default {
   $dirs_root   = [ '/data', '/data/ig' ]
   $ruby_version = '2.1.2'
 
-  #TODO app dirs structure - shared/logs
   file { $dirs_root:
     ensure => 'directory',
     owner  => 'root',
@@ -22,37 +20,42 @@ node /\.com$/ inherits default {
     mode   => '0755'
   }
 
-  # User & group #
+  # User / group / keys #
   user { $user:
-    ensure  => present,
-    gid     => $group,
-    home    => $home,
-    shell   => '/bin/bash',
-    require => Group[$group]
+    ensure     => present,
+    gid        => $group,
+    home       => $home,
+    shell      => '/bin/bash',
+    managehome => 'true',
+    require    => Group[$group]
   }
 
   group { $group: ensure => present }
 
-  # Apps #
-  #exec { 'git-clone-aliwal':
-  #  command => "su - aliwal -c 'git clone git@github.com:jondeandres/aliwal.git'",
-  #  cwd     => $home,
-  #  path    => ['/usr/bin', '/usr/sbin', '/bin'],
-  #  require => [
-  #    Package['git-core'],
-  #    File[$dirs_aliwal]
-  #  ]
-  #}
+  keys { 'aliwal-ssh-keys': home => $home }
 
-  #exec { 'git-clone-whatsapp-service':
-  #  command => "su - aliwal -c 'git clone git@github.com:jondeandres/whatsapp-service.git'",
-  #  cwd     => $home,
-  #  path    => ['/usr/bin', '/usr/sbin', '/bin'],
-  #  require => [
-  #    Package['git-core'],
-  #    File[$dirs_aliwal]
-  #  ]
-  #}
+  # Apps #
+  exec { 'git-clone-aliwal':
+    command => "su - aliwal -c 'git clone git@github.com:jondeandres/aliwal.git'",
+    cwd     => $home,
+    creates => "${home}/aliwal",
+    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+    require => [
+      Package['git-core'],
+      File["${home}/.ssh/id_dsa"]
+    ]
+  }
+
+  exec { 'git-clone-whatsapp-service':
+    command => "su - aliwal -c 'git clone git@github.com:jondeandres/whatsapp-service.git'",
+    cwd     => $home,
+    creates => "${home}/whatsapp-service",
+    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+    require => [
+      Package['git-core'],
+      File["${home}/.ssh/id_dsa"]
+    ]
+  }
 
   # APT #
   include apt::backports
@@ -123,8 +126,14 @@ node /\.com$/ inherits default {
 
   # MONIT #
   include monit
-  monit::monitor { 'aliwal-unicorn':
-    pidfile => "${home}/current/shared/pids/aliwal.pid",
+  monit::monitor { 'unicorn_development_aliwal':
+    pidfile => "${home}/aliwal/tmp/pids/unicorn.pid"
+  }
+
+  # UNICORN #
+  unicorn { 'aliwal':
+    user => $user,
+    home => $home
   }
 
   # REDIS #
