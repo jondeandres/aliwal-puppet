@@ -24,7 +24,7 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/keys
   ref: master
-  sha: a5aa04e6324f35d066b6f63d92d2dd0e9ec3d176
+  sha: aa2f985bb899157980f3e2ab079dd27d5c3ecd7b
   specs:
     aliwal/keys (0.0.1)
 
@@ -32,7 +32,7 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/unicorn
   ref: master
-  sha: a5aa04e6324f35d066b6f63d92d2dd0e9ec3d176
+  sha: aa2f985bb899157980f3e2ab079dd27d5c3ecd7b
   specs:
     aliwal/unicorn (0.0.1)
 
