@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "debian607"
+  config.vm.box = "puppetlabs/debian-7.5-64-puppet"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -82,7 +82,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puppet.manifest_file  = "site.pp" # will have to point to manifests directory (puppet 4)
     puppet.module_path    = "modules"
     puppet.facter = {
-      "osfamily" => "debian",
       "fqdn" => "test.com"
     }
   end
