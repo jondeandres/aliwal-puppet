@@ -15,7 +15,7 @@ define keys($user='aliwal',$group='aliwal',$home) {
       owner   => $user,
       group   => $group,
       mode    => '0755',
-      require => File[$home];
+      require => User[$user];
 
     "${home}/.ssh/id_dsa":
       ensure  => present,
