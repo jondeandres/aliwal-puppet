@@ -17,7 +17,7 @@ USER_PATH="<%= @home %>"
 APP="<%= @app_name %>"
 APP_PATH="$USER_PATH/$APP"
 RBENV_PATH="$USER_PATH/.rbenv"
-DAEMON_NAME="unicorn_<%= @env %>"
+DAEMON_NAME=<%= @app_daemon %>
 DAEMON="$APP_PATH/bin/$DAEMON_NAME"
 DAEMON_OPTS=""
 NAME="unicorn $APP"

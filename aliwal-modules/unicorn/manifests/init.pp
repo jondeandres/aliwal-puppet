@@ -1,5 +1,5 @@
-define unicorn($user, $home, $app_name=$name, $env='development') {
-  file { "/etc/init.d/unicorn_${env}_${app_name}":
+define unicorn($user, $home, $app_name, $app_daemon, $env='development') {
+  file { "/etc/init.d/${env}_${app_name}_${app_daemon}":
     ensure  => present,
     owner   => root,
     group   => root,
