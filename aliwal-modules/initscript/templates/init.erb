@@ -25,7 +25,7 @@ EXEC_DAEMON="$RBENV_PATH/shims/bundle exec bin/$DAEMON $DAEMON_OPTS"
 <% else %>
 EXEC_DAEMON="bin/$DAEMON $DAEMON_OPTS"
 <% end %>
-PID=/var/run/$APP.pid
+PID=$APP_PATH/$APP.pid
 
 PATH="/sbin:/bin:/usr/sbin:/usr/bin"
 
@@ -35,7 +35,11 @@ test -x $DAEMON || exit 0
 
 d_start () {
         log_daemon_msg "Starting system $APP Daemon"
-        start-stop-daemon --start --background --pidfile $PID --make-pidfile --user $USER --chuid $USER --chdir $APP_PATH --exec $EXEC_DAEMON
+        if [ `whoami` = root ]; then
+          cd /home/$USER; su - $USER -c "start-stop-daemon --start --background --pidfile $PID --make-pidfile --user $USER --chuid $USER --chdir $APP_PATH --exec $EXEC_DAEMON"
+        else
+          start-stop-daemon --start --background --pidfile $PID --make-pidfile --user $USER --chuid $USER --chdir $APP_PATH --exec $EXEC_DAEMON
+        fi
         log_end_msg $?
 }
 
