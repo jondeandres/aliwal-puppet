@@ -1,0 +1,6 @@
+#!/bin/bash
+app=$1; config=$2; log=$3;
+
+# The user environment is not loaded here, we need to import .bash_profile exports and set rbenv.
+. ~/.bash_profile
+cd $app && exec bundle exec puma -C $config 2>&1 >> $log
