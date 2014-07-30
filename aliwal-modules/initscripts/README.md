@@ -1,1 +1,1 @@
-# Manage Unicorn services on /etc/init.d
+# Manage services on /etc/init.d
