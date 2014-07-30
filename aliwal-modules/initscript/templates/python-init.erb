@@ -13,10 +13,10 @@
 USER=<%= @user %>
 USER_PATH=<%= @home %>
 APP="<%= @app %>"
-APP_ATH=$USER_PATH/$APP
+APP_PATH=$USER_PATH/$APP
 DAEMON_NAME=<%= @daemon %>
 DAEMON=$APP_PATH/bin/$DAEMON_NAME
-PID=$APP_PATH/tmp/pids/$DAEMON_NAME.pid
+PID=/var/run/$DAEMON_NAME.pid
 
 PATH="/sbin:/bin:/usr/sbin:/usr/bin"
 
@@ -25,14 +25,14 @@ test -x $DAEMON || exit 0
 . /lib/lsb/init-functions
 
 d_start () {
-        log_daemon_msg "Starting system $DEAMON_NAME Daemon"
-        start-stop-daemon --background --name $DEAMON_NAME --start --pidfile $PID --make-pidfile --user $USER --chuid $USER --exec $DAEMON
+        log_daemon_msg "Starting system $APP Daemon"
+        start-stop-daemon --start --background --pidfile $PID --make-pidfile --user $USER --chuid $USER --exec $DAEMON
         log_end_msg $?
 }
 
 d_stop () {
-        log_daemon_msg "Stopping system $DEAMON_NAME Daemon"
-        start-stop-daemon --name $DEAMON_NAME --stop --pidfile $PID --retry 10
+        log_daemon_msg "Stopping system $APP Daemon"
+        start-stop-daemon --stop --pidfile $PID --retry 10
           log_end_msg $?
 }
 
