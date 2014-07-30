@@ -22,17 +22,17 @@ GIT
 
 GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
-  path: aliwal-modules/initscripts
+  path: aliwal-modules/initscript
   ref: master
-  sha: a5fbef76143caeea04ebd973fa7ad7e7259ba19c
+  sha: b208f1aa1f6269e99bf836e15b10c96ffb361a97
   specs:
-    aliwal/initscripts (0.0.1)
+    aliwal/initscript (0.0.1)
 
 GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/keys
   ref: master
-  sha: a5fbef76143caeea04ebd973fa7ad7e7259ba19c
+  sha: b208f1aa1f6269e99bf836e15b10c96ffb361a97
   specs:
     aliwal/keys (0.0.1)
 
@@ -40,12 +40,12 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/puma
   ref: master
-  sha: a5fbef76143caeea04ebd973fa7ad7e7259ba19c
+  sha: b208f1aa1f6269e99bf836e15b10c96ffb361a97
   specs:
     aliwal/puma (0.0.1)
 
 DEPENDENCIES
-  aliwal/initscripts (>= 0)
+  aliwal/initscript (>= 0)
   aliwal/keys (>= 0)
   aliwal/puma (>= 0)
   alup/rbenv (= 1.2.0)

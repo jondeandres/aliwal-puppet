@@ -21,9 +21,9 @@ mod 'puppetmodules/puppet-module-monit',
   :ref => "2220edd37ad15c54b82c77e054df073281d8ea33"
 
 # ALIWAL modules
-mod 'aliwal/initscripts',
+mod 'aliwal/initscript',
   :git => "git@github.com:jondeandres/aliwal-puppet.git",
-  :path => "aliwal-modules/initscripts"
+  :path => "aliwal-modules/initscript"
 
 mod 'aliwal/keys',
   :git => "git@github.com:jondeandres/aliwal-puppet.git",
