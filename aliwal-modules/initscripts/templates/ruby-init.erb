@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ### BEGIN INIT INFO
-# Provides:          <%= @env %>-<%= @app_name %>-<%= @app_daemon %>
+# Provides:          <%= @env %>-<%= @app %>-<%= @app_daemon %>
 # Required-Start:    $local_fs $remote_fs $network $syslog
 # Required-Stop:     $local_fs $remote_fs $network $syslog
 # Default-Start:     2 3 4 5
@@ -14,7 +14,7 @@ set -e
 
 USER="<%= @user %>"
 USER_PATH="<%= @home %>"
-APP="<%= @app_name %>"
+APP="<%= @app %>"
 APP_PATH="$USER_PATH/$APP"
 RBENV_PATH="$USER_PATH/.rbenv"
 DAEMON_NAME=<%= @app_daemon %>
