@@ -13,12 +13,12 @@ node /\.com$/ inherits default {
     mode   => '0755'
   }
 
-  file { $dirs_aliwal:
-    ensure => 'directory',
-    owner  => $user,
-    group  => $group,
-    mode   => '0755'
-  }
+  #file { $dirs_aliwal:
+  #  ensure => 'directory',
+  #  owner  => $user,
+  #  group  => $group,
+  #  mode   => '0755'
+  #}
 
   # User / group / keys #
   user { $user:
@@ -27,7 +27,10 @@ node /\.com$/ inherits default {
     home       => $home,
     shell      => '/bin/bash',
     managehome => 'true',
-    require    => Group[$group]
+    require    => [
+      Group[$group],
+      File[$dirs_root]
+    ]
   }
 
   group { $group: ensure => present }
@@ -35,6 +38,14 @@ node /\.com$/ inherits default {
   keys { 'aliwal-ssh-keys': home => $home }
 
   # Apps #
+  exec { 'HostKeyGithub':
+    command => "su - aliwal -c 'echo -e \"Host github.com\n\tStrictHostKeyChecking no\n\" >> ${home}/.ssh/config'",
+    cwd     => $home,
+    creates => "${home}/.ssh/config",
+    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+    require => User[$user]
+  }
+
   exec { 'git-clone-aliwal':
     command => "su - aliwal -c 'git clone git@github.com:jondeandres/aliwal.git'",
     cwd     => $home,
@@ -42,7 +53,8 @@ node /\.com$/ inherits default {
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => [
       Package['git-core'],
-      File["${home}/.ssh/id_dsa"]
+      File["${home}/.ssh/id_dsa"],
+      Exec['HostKeyGithub']
     ]
   }
 
@@ -53,20 +65,19 @@ node /\.com$/ inherits default {
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
     require => [
       Package['git-core'],
-      File["${home}/.ssh/id_dsa"]
+      File["${home}/.ssh/id_dsa"],
+      Exec['HostKeyGithub']
     ]
+  }
+
+  exec { 'aliwal install':
+    command => "su - aliwal -c 'cd ${home}/aliwal && bundle install'",
+    path    => ['/usr/bin', '/usr/sbin', '/bin'],
+    require => Exec['git-clone-aliwal'],
   }
 
   # APT #
   include apt::backports
-
-  $release_real = downcase($::lsbdistcodename)
-  apt::source { 'backports-sloppy':
-    location => $::apt::params::backports_location,
-    release  => "${release_real}-backports-sloppy",
-  }
-  # Backports are needed before installing rbenv dependencies
-  Apt::Source['backports-sloppy'] -> Class['rbenv::dependencies::ubuntu']
 
   # ZMQ #
   package { 'libzmq3':
@@ -74,11 +85,15 @@ node /\.com$/ inherits default {
     require => Class['apt::backports']
   }
 
-  # PUMA #
-  #TODO
-
   # PYTHON #
   package { 'python': ensure => installed }
+  package { 'python-dev': ensure => installed }
+  package { 'python-pip': ensure => installed }
+  package { 'libsqlite3-dev': ensure => installed }
+  package { 'nodejs':
+    ensure  => installed,
+    require => Class['apt::backports']
+  }
 
   # RBENV #
   rbenv::install { $user:
@@ -92,7 +107,7 @@ node /\.com$/ inherits default {
   }
 
   rbenv::gem { 'bundler':
-    ensure => '1.5.0',
+    ensure => '1.6.0',
     ruby   =>  $ruby_version,
     user   => $user,
     home   => $home
@@ -130,10 +145,27 @@ node /\.com$/ inherits default {
     pidfile => "${home}/aliwal/tmp/pids/unicorn.pid"
   }
 
-  # UNICORN #
-  unicorn { 'aliwal':
-    user => $user,
-    home => $home
+  # INIT.Ds #
+  initscript::daemon { 'aliwal-subscriber':
+    user   => $user,
+    home   => $home,
+    app    => 'aliwal',
+    type   => 'ruby',
+    daemon => 'subscriber'
+  }
+
+  initscript::daemon { 'whatsapp-service':
+    user   => $user,
+    home   => $home,
+    app    => 'whatsapp-service',
+    type   => 'python',
+    daemon => 'run.py'
+  }
+
+  # PUMA
+  class { 'puma':
+    user  => $user,
+    group => $group
   }
 
   # REDIS #
