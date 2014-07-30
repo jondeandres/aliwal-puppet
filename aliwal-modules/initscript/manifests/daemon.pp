@@ -10,6 +10,6 @@ define initscript::daemon($user, $home, $app, $type, $daemon, $env='development'
     owner   => root,
     group   => root,
     mode    => '0755',
-    content => template("unicorn/${type}-init.erb"),
+    content => template("initscript/${type}-init.erb"),
   }
 }
