@@ -5,7 +5,7 @@ define initscript::daemon($user, $home, $app, $type, $daemon, $env='development'
     default: { fail("App type ${type} is not supported.") }
   }
 
-  file { "/etc/init.d/${env}_${app}_${daemon}":
+  file { "/etc/init.d/${app}-${env}":
     ensure  => present,
     owner   => root,
     group   => root,
