@@ -1,21 +1,30 @@
-#!/bin/bash
+#! /bin/bash
 
 ### BEGIN INIT INFO
-# Provides:          <%= @app %>-<%= env %>
-# Required-Start:    $remote_fs $syslog
-# Required-Stop:     $remote_fs $syslog
+# Provides:          <%= @app %>-<%= @daemon %>-<%= @environment %>
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Put a short description of the service here
-# Description:       Put a long description of the service here
+# Short-Description: starts the daemon <%= @daemon %>
+# Description:       starts the daemon <%= @daemon %> for app <%= @app %> at <%= @environment %> environment
 ### END INIT INFO
 
-USER=<%= @user %>
-USER_PATH=<%= @home %>
+NAME="daemon $DAEMON_NAME"
+DESC="Daemon $DAEMON_NAME for app $APP"
+USER="<%= @user %>"
+USER_PATH="<%= @home %>"
 APP="<%= @app %>"
-APP_PATH=$USER_PATH/$APP
+APP_PATH="$USER_PATH/$APP"
+CD_TO_APP_DIR="cd $APP_PATH"
+RBENV_PATH=$USER_PATH/.rbenv
 DAEMON_NAME=<%= @daemon %>
-DAEMON=$APP_PATH/bin/$DAEMON_NAME
+DAEMON_OPTS=""
+<% if @type == "ruby" %>
+EXEC_DAEMON="$RBENV_PATH/shims/bundle exec bin/$DAEMON $DAEMON_OPTS"
+<% else %>
+EXEC_DAEMON="bin/$DAEMON $DAEMON_OPTS"
+<% end %>
 PID=/var/run/$APP.pid
 
 PATH="/sbin:/bin:/usr/sbin:/usr/bin"
@@ -26,7 +35,7 @@ test -x $DAEMON || exit 0
 
 d_start () {
         log_daemon_msg "Starting system $APP Daemon"
-        start-stop-daemon --start --background --pidfile $PID --make-pidfile --user $USER --chuid $USER --exec $DAEMON
+        start-stop-daemon --start --background --pidfile $PID --make-pidfile --user $USER --chuid $USER --chdir $APP_PATH --exec $EXEC_DAEMON
         log_end_msg $?
 }
 

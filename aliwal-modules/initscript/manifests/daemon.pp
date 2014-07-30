@@ -1,7 +1,6 @@
 define initscript::daemon($user, $home, $app, $type, $daemon, $env='development') {
   case $type {
-    'ruby': {}
-    'python': {}
+    'ruby', 'python': {}
     default: { fail("App type ${type} is not supported.") }
   }
 
