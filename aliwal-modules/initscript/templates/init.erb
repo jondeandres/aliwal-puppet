@@ -21,15 +21,15 @@ RBENV_PATH=$USER_PATH/.rbenv
 DAEMON_NAME=<%= @daemon %>
 DAEMON_OPTS=""
 <% if @type == "ruby" %>
-EXEC_DAEMON="$RBENV_PATH/shims/bundle exec bin/$DAEMON $DAEMON_OPTS"
+EXEC_DAEMON="$RBENV_PATH/shims/bundle exec bin/$DAEMON_NAME $DAEMON_OPTS"
 <% else %>
-EXEC_DAEMON="bin/$DAEMON $DAEMON_OPTS"
+EXEC_DAEMON="bin/$DAEMON_NAME $DAEMON_OPTS"
 <% end %>
 PID=$APP_PATH/$APP.pid
 
 PATH="/sbin:/bin:/usr/sbin:/usr/bin"
 
-test -x $DAEMON || exit 0
+test -x $APP_PATH/bin/$DAEMON_NAME || exit 0
 
 . /lib/lsb/init-functions
 
