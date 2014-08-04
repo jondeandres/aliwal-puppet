@@ -33,6 +33,6 @@ mod 'aliwal/puma',
   :git => "git@github.com:jondeandres/aliwal-puppet.git",
   :path => "aliwal-modules/puma"
 
-mod 'aliwal/apps',
+mod 'aliwal/app',
   :git => "git@github.com:jondeandres/aliwal-puppet.git",
-  :path => "aliwal-modules/apps"
+  :path => "aliwal-modules/app"
