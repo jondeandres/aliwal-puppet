@@ -120,8 +120,8 @@ node /\.com$/ inherits default {
     home   => $home
   }
 
-  rbenv::gem { 'unicorn':
-    ensure => '4.8.3',
+  rbenv::gem { 'puma':
+    ensure => '2.8.2',
     ruby   => $ruby_version,
     user   => $user,
     home   => $home
