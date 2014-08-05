@@ -37,44 +37,26 @@ node /\.com$/ inherits default {
 
   keys { 'aliwal-ssh-keys': home => $home }
 
-  # Apps #
-  exec { 'HostKeyGithub':
-    command => "su - aliwal -c 'echo -e \"Host github.com\n\tStrictHostKeyChecking no\n\" >> ${home}/.ssh/config'",
-    cwd     => $home,
-    creates => "${home}/.ssh/config",
-    path    => ['/usr/bin', '/usr/sbin', '/bin'],
-    require => User[$user]
+  # APPS #
+  class { 'git_utils':
+    user => $user,
+    home => $home,
   }
 
-  exec { 'git-clone-aliwal':
-    command => "su - aliwal -c 'git clone git@github.com:jondeandres/aliwal.git'",
-    cwd     => $home,
-    creates => "${home}/aliwal",
-    path    => ['/usr/bin', '/usr/sbin', '/bin'],
-    require => [
-      Package['git-core'],
-      File["${home}/.ssh/id_dsa"],
-      Exec['HostKeyGithub']
-    ]
+  $apps = {
+    'aliwal' => {
+      app            => 'aliwal',
+      bundle_install => true
+    },
+    'whatsapp-service' => {
+      app => 'whatsapp-service'
+    }
   }
-
-  exec { 'git-clone-whatsapp-service':
-    command => "su - aliwal -c 'git clone git@github.com:jondeandres/whatsapp-service.git'",
-    cwd     => $home,
-    creates => "${home}/whatsapp-service",
-    path    => ['/usr/bin', '/usr/sbin', '/bin'],
-    require => [
-      Package['git-core'],
-      File["${home}/.ssh/id_dsa"],
-      Exec['HostKeyGithub']
-    ]
+  $defaults = {
+    user => $user,
+    home => $home
   }
-
-  exec { 'aliwal install':
-    command => "su - aliwal -c 'cd ${home}/aliwal && bundle install'",
-    path    => ['/usr/bin', '/usr/sbin', '/bin'],
-    require => Exec['git-clone-aliwal'],
-  }
+  create_resources('git_utils::clone', $apps, $defaults)
 
   # APT #
   include apt::backports
