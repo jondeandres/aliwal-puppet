@@ -9,9 +9,6 @@ class git_utils (
     cwd     => $home,
     creates => "${home}/.ssh/config",
     path    => ['/usr/bin', '/usr/sbin', '/bin'],
-    require => [
-      User[$user],
-      File[$home]
-    ]
+    require => User[$user]
   }
 }
