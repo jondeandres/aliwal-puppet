@@ -1,4 +1,4 @@
-define app::clone (
+define git_utils::clone (
   $user,
   $home,
   $app,
