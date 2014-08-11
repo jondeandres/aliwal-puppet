@@ -43,7 +43,7 @@ node /\.com$/ inherits default {
     home => $home,
   }
 
-  $apps = {
+  $apps_git_clone = {
     'aliwal' => {
       app            => 'aliwal',
       bundle_install => true
@@ -52,11 +52,20 @@ node /\.com$/ inherits default {
       app => 'whatsapp-service'
     }
   }
-  $defaults = {
+  $defaults_git_clone = {
     user => $user,
     home => $home
   }
-  create_resources('git_utils::clone', $apps, $defaults)
+  create_resources('git_utils::clone', $apps_git_clone, $defaults_git_clone)
+
+  # MONIT #
+  include monit
+  monit::monitor { "aliwal":
+    pidfile => "${home}/aliwal/aliwal.pid"
+  }
+  monit::monitor { "whatsapp-service":
+    pidfile => "${home}/whatsapp-service/whatsapp-service.pid"
+  }
 
   # APT #
   include apt::backports
@@ -119,12 +128,6 @@ node /\.com$/ inherits default {
     content => "source \$HOME/.rbenvrc",
     owner   => $user,
     group   => $group
-  }
-
-  # MONIT #
-  include monit
-  monit::monitor { 'unicorn_development_aliwal':
-    pidfile => "${home}/aliwal/tmp/pids/unicorn.pid"
   }
 
   # INIT.Ds #
