@@ -30,7 +30,12 @@ PID=$APP_PATH/$APP.pid
 
 PATH="/sbin:/bin:/usr/sbin:/usr/bin"
 
+<% if @type == "ruby" -%>
 test -x $APP_PATH/bin/$DAEMON_NAME || exit 0
+<% end -%>
+<% if @type == "python" -%>
+test -x $APP_PATH/bin/$DAEMON_NAME.py || exit 0
+<% end -%>
 
 . /lib/lsb/init-functions
 
