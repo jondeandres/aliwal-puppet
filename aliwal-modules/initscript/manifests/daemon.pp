@@ -1,10 +1,10 @@
-define initscript::daemon($user, $home, $app, $type, $daemon, $env='development') {
+define initscript::daemon($user, $home, $app, $type, $daemon) {
   case $type {
     'ruby', 'python': {}
     default: { fail("App type ${type} is not supported.") }
   }
 
-  file { "/etc/init.d/${app}-${env}":
+  file { "/etc/init.d/${app}-${daemon}":
     ensure  => present,
     owner   => root,
     group   => root,
