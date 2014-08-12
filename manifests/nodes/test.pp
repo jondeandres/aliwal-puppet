@@ -59,11 +59,12 @@ node /\.com$/ inherits default {
   create_resources('git_utils::clone', $apps_git_clone, $defaults_git_clone)
 
   # MONIT #
+  # TODO apps & daemons at variables
   include monit
-  monit::monitor { "aliwal":
+  monit::monitor { "aliwal-subscriber":
     pidfile => "${home}/aliwal/aliwal.pid"
   }
-  monit::monitor { "whatsapp-service":
+  monit::monitor { "whatsapp-service-run":
     pidfile => "${home}/whatsapp-service/whatsapp-service.pid"
   }
 
@@ -144,7 +145,7 @@ node /\.com$/ inherits default {
     home   => $home,
     app    => 'whatsapp-service',
     type   => 'python',
-    daemon => 'run.py'
+    daemon => 'run'
   }
 
   # PUMA
