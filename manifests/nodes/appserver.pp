@@ -57,7 +57,7 @@ node 'kitt.kitt.cc' inherits default {
     user => $user,
     home => $home
   }
-  create_resources('git_utils::clone', $git_clone, $defaults_git_clone)
+  create_resources('git_utils::clone', $git_clone, $git_clone_defaults)
 
   # MONIT #
   # TODO apps & daemons at variables
