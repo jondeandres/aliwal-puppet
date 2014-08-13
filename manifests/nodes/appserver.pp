@@ -1,4 +1,5 @@
-node /\.com$/ inherits default {
+# temprary app server's fqdn
+node 'kitt.kitt.cc' inherits default {
   $user  = 'aliwal'
   $group = 'aliwal'
   $home  = "/data/ig/${user}"
@@ -43,7 +44,7 @@ node /\.com$/ inherits default {
     home => $home,
   }
 
-  $apps_git_clone = {
+  $git_clone = {
     'aliwal' => {
       app            => 'aliwal',
       bundle_install => true
@@ -52,11 +53,11 @@ node /\.com$/ inherits default {
       app => 'whatsapp-service'
     }
   }
-  $defaults_git_clone = {
+  $git_clone_defaults = {
     user => $user,
     home => $home
   }
-  create_resources('git_utils::clone', $apps_git_clone, $defaults_git_clone)
+  create_resources('git_utils::clone', $git_clone, $defaults_git_clone)
 
   # MONIT #
   # TODO apps & daemons at variables
@@ -67,9 +68,6 @@ node /\.com$/ inherits default {
   monit::monitor { "whatsapp-service-run":
     pidfile => "${home}/whatsapp-service/whatsapp-service.pid"
   }
-
-  # APT #
-  include apt::backports
 
   # ZMQ #
   package { 'libzmq3':
@@ -98,26 +96,19 @@ node /\.com$/ inherits default {
     home => $home,
   }
 
-  rbenv::gem { 'bundler':
-    ensure => '1.6.0',
-    ruby   =>  $ruby_version,
-    user   => $user,
-    home   => $home
+  $gems = {
+    'bundler'  => { ensure => '1.6.5' },
+    'rainbows' => { ensure => '4.6.2' },
+    'puma'     => { ensure => '2.8.2' },
   }
 
-  rbenv::gem { 'rainbows':
-    ensure => '4.6.2',
-    ruby   => $ruby_version,
-    user   => $user,
-    home   => $home
+  $gems_defaults = {
+    user => $user,
+    home => $home,
+    ruby => $ruby_version
   }
 
-  rbenv::gem { 'puma':
-    ensure => '2.8.2',
-    ruby   => $ruby_version,
-    user   => $user,
-    home   => $home
-  }
+  create_resources('rbenv::gem', $gems, $gems_defaults)
 
   file {"${home}/.ruby-version":
     content => $ruby_version,
