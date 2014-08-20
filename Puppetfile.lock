@@ -22,9 +22,17 @@ GIT
 
 GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
+  path: aliwal-modules/environments
+  ref: master
+  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
+  specs:
+    aliwal/environments (0.0.1)
+
+GIT
+  remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/git_utils
   ref: master
-  sha: a80f8e38acc4b47c460a3e20e00f56d4879e1424
+  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
   specs:
     aliwal/git_utils (0.0.1)
 
@@ -32,7 +40,7 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/initscript
   ref: master
-  sha: a80f8e38acc4b47c460a3e20e00f56d4879e1424
+  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
   specs:
     aliwal/initscript (0.0.1)
 
@@ -40,7 +48,7 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/keys
   ref: master
-  sha: a80f8e38acc4b47c460a3e20e00f56d4879e1424
+  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
   specs:
     aliwal/keys (0.0.1)
 
@@ -48,11 +56,12 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/puma
   ref: master
-  sha: a80f8e38acc4b47c460a3e20e00f56d4879e1424
+  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
   specs:
     aliwal/puma (0.0.1)
 
 DEPENDENCIES
+  aliwal/environments (>= 0)
   aliwal/git_utils (>= 0)
   aliwal/initscript (>= 0)
   aliwal/keys (>= 0)

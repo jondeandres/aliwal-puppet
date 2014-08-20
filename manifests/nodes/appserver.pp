@@ -150,4 +150,8 @@ node 'kitt.kitt.cc' inherits default {
 
   # MYSQL #
   include mysql::server
+
+  # ENVIRONMENT VBLES #
+  include environments
+  environments::resources::profile { 'kitt': }
 }
