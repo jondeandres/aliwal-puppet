@@ -38,6 +38,7 @@ test -x $APP_PATH/bin/$DAEMON_NAME.py || exit 0
 <% end -%>
 
 . /lib/lsb/init-functions
+. /etc/profile
 
 d_start () {
         log_daemon_msg "Starting system $APP Daemon"
