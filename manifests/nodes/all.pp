@@ -1,4 +1,4 @@
-node 'new.kitt.cc' inherits default {
+node 'vps68927.ovh.net' inherits default {
 # puppet master
   $rootuser  = 'root'
   $rootgroup = 'root'
