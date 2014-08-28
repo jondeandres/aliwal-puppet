@@ -19,6 +19,8 @@ mod 'puppetmodules/puppet-module-monit',
   :git => "git://github.com/puppetmodules/puppet-module-monit.git",
   # referencing commits since there aren't tags
   :ref => "2220edd37ad15c54b82c77e054df073281d8ea33"
+mod 'stankevich/stankevich-python',
+  :git => "git://github.com/stankevich/puppet-python.git"
 
 # ALIWAL modules
 mod 'aliwal/initscript',

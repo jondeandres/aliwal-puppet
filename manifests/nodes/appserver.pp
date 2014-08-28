@@ -76,9 +76,25 @@ node 'kitt.kitt.cc' inherits default {
   }
 
   # PYTHON #
-  package { 'python': ensure => installed }
-  package { 'python-dev': ensure => installed }
-  package { 'python-pip': ensure => installed }
+  class {'python':
+    version    => 'system',
+    pip        => true,
+    dev        => true
+  }
+  python::pip { 'redis':
+    pkgname       => 'redis',
+  }
+  python::pip { 'pyzmq':
+    pkgname       => 'pyzmq',
+  }
+  python::pip { 'python-dateutil':
+    pkgname       => 'python-dateutil',
+  }
+  python::pip { 'argparse':
+    pkgname       => 'argparse',
+  }
+ 
+ # PACKAGES #
   package { 'libsqlite3-dev': ensure => installed }
   package { 'nodejs':
     ensure  => installed,

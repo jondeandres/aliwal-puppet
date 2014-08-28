@@ -21,10 +21,18 @@ GIT
     puppetmodules/puppet-module-monit (0.0.1)
 
 GIT
+  remote: git://github.com/stankevich/puppet-python.git
+  ref: master
+  sha: 41878b74262e8b7c8cfa8e8064643d09becc5920
+  specs:
+    stankevich/stankevich-python (1.7.9)
+      puppetlabs/stdlib (>= 4.0.0)
+
+GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/environments
   ref: master
-  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
+  sha: 7e6dd8a7a7bbfa2ec0723a081e048fce4e95a00c
   specs:
     aliwal/environments (0.0.1)
 
@@ -32,7 +40,7 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/git_utils
   ref: master
-  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
+  sha: 7e6dd8a7a7bbfa2ec0723a081e048fce4e95a00c
   specs:
     aliwal/git_utils (0.0.1)
 
@@ -40,7 +48,7 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/initscript
   ref: master
-  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
+  sha: 7e6dd8a7a7bbfa2ec0723a081e048fce4e95a00c
   specs:
     aliwal/initscript (0.0.1)
 
@@ -48,7 +56,7 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/keys
   ref: master
-  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
+  sha: 7e6dd8a7a7bbfa2ec0723a081e048fce4e95a00c
   specs:
     aliwal/keys (0.0.1)
 
@@ -56,7 +64,7 @@ GIT
   remote: git@github.com:jondeandres/aliwal-puppet.git
   path: aliwal-modules/puma
   ref: master
-  sha: 46b3586bf1f897e4b6f062d73cb81ae40f3393ce
+  sha: 7e6dd8a7a7bbfa2ec0723a081e048fce4e95a00c
   specs:
     aliwal/puma (0.0.1)
 
@@ -71,5 +79,6 @@ DEPENDENCIES
   puppetlabs/mysql (= 2.3.1)
   puppetlabs/stdlib (= 4.3.2)
   puppetmodules/puppet-module-monit (>= 0)
+  stankevich/stankevich-python (>= 0)
   thomasvandoren/redis (= 0.10.0)
 
