@@ -82,7 +82,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puppet.manifest_file  = "site.pp" # will have to point to manifests directory (puppet 4)
     puppet.module_path    = "modules"
     puppet.facter = {
-      "fqdn" => "kitt.kitt.cc"
+      "fqdn" => "new.kitt.cc"
     }
   end
 

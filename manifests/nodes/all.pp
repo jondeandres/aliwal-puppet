@@ -1,5 +1,41 @@
-# temprary app server's fqdn
-node 'appserver' inherits default {
+node 'new.kitt.cc' inherits default {
+# puppet master
+  $rootuser  = 'root'
+  $rootgroup = 'root'
+  $roothome  = "/${user}"
+  $rootruby_version = '1.9.3-p194'
+
+  package { 'facter':                 ensure => '1.7.5-1puppetlabs1'}
+  package { 'puppetmaster-passenger': ensure => '3.4.3-1puppetlabs1'}
+  package { 'puppet':                 ensure => '3.4.3-1puppetlabs1'}
+
+  service { 'apache2': ensure => running }
+
+  # RBENV #
+  rbenv::install { $rootuser:
+    group => $rootoroup,
+    home  => $roothome,
+  }
+
+  rbenv::compile { $rootruby_version:
+    user => $rootuser,
+    home => $roothome,
+  }
+
+  $rootgems = {
+    'librarian' => { ensure => '0.1.2' },
+    'r10k'      => { ensure => '1.3.2' },
+  }
+
+  $rootgems_defaults = {
+    user => $rootuser,
+    home => $roothome,
+    ruby => $rootruby_version
+  }
+
+  create_resources('rbenv::gem', $rootgems, $rootgems_defaults)
+
+# appserver 
   $user  = 'aliwal'
   $group = 'aliwal'
   $home  = "/data/ig/${user}"
