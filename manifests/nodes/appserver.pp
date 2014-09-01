@@ -1,5 +1,5 @@
 # temprary app server's fqdn
-node 'appserver' inherits default {
+node 'ec2-54-77-129-90.eu-west-1.compute.amazonaws.com' inherits default {
   $user  = 'aliwal'
   $group = 'aliwal'
   $home  = "/data/ig/${user}"

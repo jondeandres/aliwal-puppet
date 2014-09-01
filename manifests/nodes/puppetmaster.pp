@@ -1,5 +1,5 @@
 # temporary puppetmaster fqdn
-node 'puppermaster' inherits default {
+node 'vps68927.ovh.net' inherits default {
   $user  = 'root'
   $group = 'root'
   $home  = "/${user}"

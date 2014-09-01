@@ -1,4 +1,4 @@
-node 'vps68927.ovh.net' inherits default {
+node 'all' inherits default {
 # puppet master
   $rootuser  = 'root'
   $rootgroup = 'root'
