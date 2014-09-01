@@ -7,7 +7,8 @@ forge "https://forgeapi.puppetlabs.com"
 #modulefile
 
 mod 'thomasvandoren/redis', "0.10.0"
-mod 'alup/rbenv', "1.2.0"
+mod 'alup/rbenv',
+  :git => "git://github.com/alup/puppet-rbenv"
 mod 'puppetlabs/stdlib', "4.3.2"
 mod 'puppetlabs/apt', "1.5.1"
 mod 'puppetlabs/mysql', "2.3.1"
@@ -16,9 +17,7 @@ mod 'puppetlabs/mysql', "2.3.1"
 # not working if module's name contains a dash :(
 # use 'installModules.sh' script
 mod 'puppetmodules/puppet-module-monit',
-  :git => "git://github.com/puppetmodules/puppet-module-monit.git",
-  # referencing commits since there aren't tags
-  :ref => "2220edd37ad15c54b82c77e054df073281d8ea33"
+  :git => "git@github.com:theforeman/puppet-module-monit.git"
 mod 'stankevich/stankevich-python',
   :git => "git://github.com/stankevich/puppet-python.git"
 
